@@ -1,5 +1,21 @@
 # proyecto-mysql Parques
 
+
+/proyecto-los-ambientales
+├── /ddl                # Scripts de creación de tablas y relaciones (DDL)
+│   └── ddl.sql
+├── /dml                # Scripts de inserción de datos (DML)
+│   └── dml.sql
+├── /dql                # Consultas, procedimientos, funciones, triggers y eventos
+│   ├── dql_select.sql
+│   ├── dql_procedimientos.sql
+│   ├── dql_funciones.sql
+│   ├── dql_triggers.sql
+│   └── dql_eventos.sql
+├── /docs               # Documentación adicional
+│   ├── README.md
+│   └── Diagrama.jpg    # Modelo ER o diagrama de la base de datos
+
 "Parques" es una base de datos relacional diseñada para gestionar de manera eficiente todas las operaciones relacionadas con los parques naturales bajo la supervisión del Ministerio del Medio Ambiente en Colombia. El sistema abarca la administración de departamentos, parques, áreas, especies, personal, proyectos de investigación, visitantes y alojamientos. Su propósito es proporcionar una solución robusta y optimizada que facilite consultas críticas para la toma de decisiones, como el estado de los parques, inventarios de especies, actividades del personal, estadísticas de proyectos y gestión de visitantes.
 
 El proyecto incluye la creación de la estructura de la base de datos, la inserción de datos realistas, 100 consultas SQL, 20 procedimientos almacenados, 20 funciones, 20 eventos, 20 triggers y la definición de 5 roles de usuario con permisos específicos. Todo esto se entrega en un repositorio organizado en GitHub.
