@@ -228,10 +228,11 @@ Total: 100 consultas divididas en 5 categorías (15 sobre parques, 15 sobre inve
 
 
 ## Creación de usuarios:
-```sql
+
 CREATE USER 'admin'@'localhost' IDENTIFIED BY 'password123';
 GRANT ALL PRIVILEGES ON parques.* TO 'admin'@'localhost';
 FLUSH PRIVILEGES;
+
 
 ## Contribuciones
 [Brayan David Vera Mesa]
