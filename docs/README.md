@@ -65,8 +65,6 @@ Las tablas están interconectadas mediante claves primarias y foráneas para ref
 
 ## Avanzada (Consulta Avanzada 1): Parques con más áreas que el promedio por entidad responsable.
 
-## Avanzada (Consulta Avanzada 1): Parques con más áreas que el promedio por entidad responsable.
-
 
  SELECT p.Nombre_Parque, er.Nombre_Entidad, COUNT(a.ID_Area) AS Total_Areas
  FROM parque p
@@ -77,19 +75,6 @@ LEFT JOIN area a ON p.ID_Parque = a.ID_Parque
 GROUP BY p.Nombre_Parque, er.Nombre_Entidad
 HAVING Total_Areas > (SELECT AVG(COUNT(a2.ID_Area)) FROM parque p2 LEFT JOIN area a2 ON p2.ID_Parque = a2.ID_Parque GROUP BY p2.ID_Parque);
 
-
-Resultado: Identifica parques con alta densidad de áreas.
-
-Total: 100 consultas divididas en 5 categorías (15 sobre parques, 15 sobre inventarios, 15 sobre personal, 15 sobre proyectos, 20 sobre visitantes), incluyendo 20 avanzadas.
-
- SELECT p.Nombre_Parque, er.Nombre_Entidad, COUNT(a.ID_Area) AS Total_Areas
- FROM parque p
-JOIN departamento_parque dp ON p.ID_Parque = dp.ID_Parque
- JOIN departamento d ON dp.ID_Departamento = d.ID_Departamento
-JOIN entidad_responsable er ON d.ID_Entidad = er.ID_Entidad
-LEFT JOIN area a ON p.ID_Parque = a.ID_Parque
-GROUP BY p.Nombre_Parque, er.Nombre_Entidad
-HAVING Total_Areas > (SELECT AVG(COUNT(a2.ID_Area)) FROM parque p2 LEFT JOIN area a2 ON p2.ID_Parque = a2.ID_Parque GROUP BY p2.ID_Parque);
 
 Resultado: Identifica parques con alta densidad de áreas.
 
