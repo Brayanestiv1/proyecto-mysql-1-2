@@ -1,277 +1,226 @@
-# proyecto-mysql Parques
+# Gestión de Parques Naturales
 
+## Descripción del Proyecto
 
-/proyecto-los-ambientales
-├── /ddl                # Scripts de creación de tablas y relaciones (DDL)
-│   └── ddl.sql
-├── /dml                # Scripts de inserción de datos (DML)
-│   └── dml.sql
-├── /dql                # Consultas, procedimientos, funciones, triggers y eventos
-│   ├── dql_select.sql
-│   ├── dql_procedimientos.sql
-│   ├── dql_funciones.sql
-│   ├── dql_triggers.sql
-│   └── dql_eventos.sql
-├── /docs               # Documentación adicional
-│   ├── README.md
-│   └── Diagrama.jpg    # Modelo ER o diagrama de la base de datos
-
-"Parques" es una base de datos relacional diseñada para gestionar de manera eficiente todas las operaciones relacionadas con los parques naturales bajo la supervisión del Ministerio del Medio Ambiente en Colombia. El sistema abarca la administración de departamentos, parques, áreas, especies, personal, proyectos de investigación, visitantes y alojamientos. Su propósito es proporcionar una solución robusta y optimizada que facilite consultas críticas para la toma de decisiones, como el estado de los parques, inventarios de especies, actividades del personal, estadísticas de proyectos y gestión de visitantes.
-
-El proyecto incluye la creación de la estructura de la base de datos, la inserción de datos realistas, 100 consultas SQL, 20 procedimientos almacenados, 20 funciones, 20 eventos, 20 triggers y la definición de 5 roles de usuario con permisos específicos. Todo esto se entrega en un repositorio organizado en GitHub.
-
----
+El proyecto "Gestión de Parques Naturales" es un sistema de base de datos diseñado para administrar información sobre parques naturales, incluyendo áreas, especies, personal, proyectos de investigación, visitantes y alojamientos. Su propósito es facilitar el seguimiento de inventarios, la asignación de recursos, la gestión de personal y la ocupación de alojamientos, ofreciendo herramientas para análisis y automatización mediante 65 consultas, 20 eventos, 20 funciones, 20 procedimientos y 20 disparadores implementados.
 
 ## Requisitos del Sistema
 
 - **Software necesario**:
-  - MySQL Server (versión 8.0 o superior).
-  - Cliente MySQL Workbench (o cualquier cliente SQL compatible).
-  - Git (para clonar el repositorio).
-- **Sistema Operativo**: Compatible con Windows, macOS o Linux.
-- **Espacio en disco**: Al menos 500 MB para la base de datos y scripts.
-
----
+  - MySQL 8.0 o superior.
+  - Cliente como MySQL Workbench o DBeaver para ejecutar scripts y visualizar datos.
+  - Sistema operativo compatible con MySQL (Windows, Linux, macOS).
 
 ## Instalación y Configuración
 
-Sigue estos pasos para configurar y ejecutar la base de datos:
+1. **Configurar el entorno**:
+   - Instala MySQL Server y un cliente como MySQL Workbench.
+   - Inicia el servidor MySQL y crea una base de datos vacía: `CREATE DATABASE parques;`.
 
-1. **Clonar el Repositorio**:
-   ```bash
-   git clone <https://github.com/Brayanestiv1/proyecto-mysql-1-2>
-   cd proyecto-mysql-1-2
-   ```
-   - Nota: Asegúrate de tener permisos de acceso al repositorio.
+2. **Ejecutar el archivo `ddl.sql`**:
+   - Abre el cliente MySQL y selecciona la base de datos: `USE parques;`.
+   - Copia y pega el contenido del archivo `ddl.sql` (estructura de tablas) y ejecútalo para crear las tablas.
 
-2. **Configurar MySQL**:
-   - Inicia tu servidor MySQL.
-   - Crea una base de datos vacía:
-     ```sql
-     CREATE DATABASE parques;
-     ```
+3. **Cargar datos iniciales con `dml.sql`**:
+   - Ejecuta el archivo `dml.sql` (datos iniciales) en la misma base de datos para poblar las tablas con información de ejemplo.
 
-3. **Ejecutar los Scripts SQL**:
-   - **Estructura (DDL)**: Ejecuta el archivo `ddl.sql` para crear las tablas y relaciones.
-     ```bash
-     mysql -u <usuario> -p parques < ddl.sql
-     ```
-   - **Datos Iniciales (DML)**: Carga los datos con `dml.sql`.
-     ```bash
-     mysql -u <usuario> -p parques < dml.sql
-     ```
-   - **Consultas**: Usa `dql_select.sql` para probar las consultas.
-   - **Procedimientos**: Ejecuta `dql_procedimientos.sql` para crear los procedimientos almacenados.
-   - **Funciones**: Ejecuta `dql_funciones.sql` para las funciones.
-   - **Triggers**: Ejecuta `dql_triggers.sql` para los triggers.
-   - **Eventos**: Ejecuta `dql_eventos.sql` para los eventos (asegúrate de habilitar el scheduler con `SET GLOBAL event_scheduler = ON;`).
-
-4. **Verificar Instalación**:
-   - Conéctate a la base de datos con MySQL Workbench y ejecuta:
-     ```sql
-     USE parques;
-     SHOW TABLES;
-     ```
-   - Deberías ver las 14 tablas creadas.
-
----
+4. **Ejecutar scripts adicionales**:
+   - Carga los scripts en el siguiente orden:
+     1. Consultas (`consultas.sql`): 65 consultas básicas y avanzadas.
+     2. Eventos (`eventos.sql`): 20 eventos programados.
+     3. Funciones (`funciones.sql`): 20 funciones determinísticas.
+     4. Procedimientos (`procedimientos.sql`): 20 procedimientos almacenados.
+     5. Disparadores (`triggers.sql`): 20 triggers.
+   - Usa el cliente para ejecutar cada archivo: `SOURCE ruta_del_archivo.sql;` o copia y pega el contenido.
 
 ## Estructura de la Base de Datos
 
-La base de datos consta de 14 tablas interrelacionadas:
+- **`parque`**: Almacena información de parques (ID, nombre, fecha de declaración, superficie).
+- **`area`**: Detalla las áreas dentro de los parques (ID, nombre, extensión, ID_Parque).
+- **`especies`**: Registra especies presentes (ID, nombre científico/vulgar, tipo).
+- **`inventario_especies`**: Vincula especies a áreas con número de individuos.
+- **`departamento` y `departamento_parque`**: Gestiona la relación entre departamentos y parques.
+- **`entidad_responsable`**: Entidades que gestionan departamentos.
+- **`personal`**: Contiene datos del personal (ID, nombre, tipo, sueldo).
+- **`vehiculo`**: Registra vehículos asignados al personal de vigilancia.
+- **`proyecto_investigacion`**: Almacena proyectos de investigación (ID, presupuesto, periodo).
+- **`investigador_proyecto_especie`**: Relaciona investigadores, proyectos y especies.
+- **`visitante`**: Datos de visitantes (ID, nombre, dirección, profesión).
+- **`alojamiento`**: Información de alojamientos (ID, capacidad, categoría, ID_Parque).
+- **`registro_visitantes`**: Registra entradas de visitantes a alojamientos.
 
-- **`entidad_responsable`**: Entidades que gestionan parques (ejemplo: "Fundación EcoSur").
-- **`departamento`**: Departamentos con parques, vinculados a una entidad responsable.
-- **`parque`**: Parques naturales con nombre, fecha de declaración y superficie.
-- **`departamento_parque`**: Relación muchos a muchos entre departamentos y parques.
-- **`area`**: Áreas específicas dentro de los parques (ejemplo: "Zona Costera").
-- **`especies`**: Especies (animales, vegetales, minerales) con nombres científicos y vulgares.
-- **`inventario_especies`**: Conteo de especies por área.
-- **`personal`**: Empleados con roles (gestión, vigilancia, conservación, investigación).
-- **`vehiculo`**: Vehículos asignados a vigilantes.
-- **`proyecto_investigacion`**: Proyectos con presupuesto y periodo.
-- **`investigador_proyecto_especie`**: Relación muchos a muchos entre investigadores, proyectos y especies.
-- **`visitante`**: Visitantes con datos personales.
-- **`alojamiento`**: Alojamientos en los parques (cabañas, camping, etc.).
-- **`registro_visitantes`**: Registro de visitantes en alojamientos.
-
-**Diagrama**: Consulta `Diagrama.jpg` en el repositorio para ver el modelo entidad-relación.
-
----
+Las tablas están interconectadas mediante claves primarias y foráneas para reflejar relaciones como parques-áreas, especies-inventarios y personal-vehículos.
 
 ## Ejemplos de Consultas
 
-1. **Número de Parques por Departamento**:
-   ```sql
-   SELECT d.Nombre_Departamento, COUNT(dp.ID_Parque) as Num_Parques
-   FROM departamento d
-   LEFT JOIN departamento_parque dp ON d.ID_Departamento = dp.ID_Departamento
-   GROUP BY d.Nombre_Departamento;
-   ```
-   - **Resultado**: Lista departamentos y cuántos parques tienen.
-
-2. **Inventario de Especies por Área (Avanzada)**:
-   ```sql
-   SELECT a.Nombre_Area, e.Tipo, SUM(ie.Numero_Individuos) as Total
-   FROM area a
-   JOIN inventario_especies ie ON a.ID_Area = ie.ID_Area
-   JOIN especies e ON ie.ID_Especie = e.ID_Especie
-   GROUP BY a.Nombre_Area, e.Tipo
-   HAVING Total > 50;
-   ```
-   - **Resultado**: Áreas con más de 50 individuos por tipo de especie.
-
-Consulta `dql_select.sql` para las 100 consultas implementadas.
-
----
-
-## Procedimientos, Funciones, Triggers y Eventos
-
-### **Procedimientos Almacenados**
-- **Ejemplo**: `registrar_visitante`
+- **Básica (Consulta 1)**: Cantidad de parques por departamento.
   ```sql
-  DELIMITER //
-  CREATE PROCEDURE registrar_visitante(
-      IN cedula VARCHAR(20), IN nombre VARCHAR(100), IN direccion TEXT, IN profesion VARCHAR(100)
-  )
-  BEGIN
-      INSERT INTO visitante (Numero_Cedula, Nombre, Direccion, Profesion)
-      VALUES (cedula, nombre, direccion, profesion);
-  END //
-  DELIMITER ;
-  ```
-  - **Uso**: `CALL registrar_visitante('12345678', 'Juan Pérez', 'Calle 10, Bogotá', 'Ingeniero');`
+  SELECT d.Nombre_Departamento, COUNT(dp.ID_Parque) AS Total_Parques
+  FROM departamento d
+  LEFT JOIN departamento_parque dp ON d.ID_Departamento = dp.ID_Departamento
+  GROUP BY d.Nombre_Departamento;
 
-- Total: 20 en `dql_procedimientos.sql`.
 
-### **Funciones**
-- **Ejemplo**: `superficie_por_departamento`
+ Resultado: Lista departamentos con el número de parques asociados.
+
+## Avanzada (Consulta Avanzada 1): Parques con más áreas que el promedio por entidad responsable.
+
+```sql
+ SELECT p.Nombre_Parque, er.Nombre_Entidad, COUNT(a.ID_Area) AS Total_Areas
+ FROM parque p
+JOIN departamento_parque dp ON p.ID_Parque = dp.ID_Parque
+ JOIN departamento d ON dp.ID_Departamento = d.ID_Departamento
+JOIN entidad_responsable er ON d.ID_Entidad = er.ID_Entidad
+LEFT JOIN area a ON p.ID_Parque = a.ID_Parque
+GROUP BY p.Nombre_Parque, er.Nombre_Entidad
+HAVING Total_Areas > (SELECT AVG(COUNT(a2.ID_Area)) FROM parque p2 LEFT JOIN area a2 ON p2.ID_Parque = a2.ID_Parque GROUP BY p2.ID_Parque);
+
+Resultado: Identifica parques con alta densidad de áreas.
+
+Total: 100 consultas divididas en 5 categorías (15 sobre parques, 15 sobre inventarios, 15 sobre personal, 15 sobre proyectos, 20 sobre visitantes), incluyendo 20 avanzadas.
+
+
+# Procedimientos, Funciones, Triggers y Eventos
+
+## Procedimientos (20)
+- **RegistrarParque**: Inserta un nuevo parque.  
+  Ejemplo: `CALL RegistrarParque(51, 'Parque Nuevo', '2025-03-06', 10000.00);`
+- **ActualizarParque**: Actualiza datos de un parque.
+- **RegistrarArea**: Registra un área en un parque.
+- **RegistrarEspecie**: Inserta una nueva especie.
+- **ActualizarInventarioEspecies**: Actualiza o registra individuos en inventario_especies.
+- **RegistrarVisitante**: Registra un visitante.
+- **AsignarAlojamiento**: Asigna un visitante a un alojamiento con verificación de capacidad.
+- **LiberarAlojamiento**: Elimina un registro de visitante.
+- **AsignarVehiculoPersonal**: Asigna un vehículo a personal de vigilancia.
+- **LiberarVehiculoPersonal**: Libera un vehículo asignado.
+- **RegistrarProyectoInvestigacion**: Registra un proyecto de investigación.
+- **ActualizarPresupuestoProyecto**: Actualiza el presupuesto de un proyecto.
+- **AsignarInvestigadorProyectoEspecie**: Asigna un investigador a un proyecto y especie.
+- **ReporteOcupacionAlojamientos**: Reporte de ocupación por parque.
+- **RegistrarVehiculoVigilancia**: Registra un vehículo para vigilancia.
+- **ActualizarSueldoPersonal**: Actualiza el sueldo de un empleado.
+- **ReporteInventarioEspeciesPorArea**: Reporte de especies por área.
+- **AsignarPersonalAArea**: Asigna personal de conservación a un área.
+- **CalcularCostoTotalProyectos**: Calcula el costo total de proyectos activos.
+- **GenerarReporteVehiculosAsignados**: Reporte de vehículos asignados a vigilancia.
+
+## Funciones (20)
+- **CalcularSuperficieTotalParque**: Suma la extensión de áreas de un parque.  
+  Ejemplo: `SELECT CalcularSuperficieTotalParque(1);`
+- **ContarIndividuosEspecieParque**: Cuenta individuos de una especie en un parque.
+- **ObtenerCapacidadDisponibleAlojamiento**: Capacidad disponible en un alojamiento.
+- **CalcularPresupuestoPromedioProyectos**: Promedio de presupuestos de proyectos activos.
+- **ObtenerPorcentajeOcupacionAlojamiento**: Porcentaje de ocupación de un alojamiento.
+- **ContarParquesPorDepartamento**: Número de parques por departamento.
+- **ObtenerSueldoPromedioPorTipoPersonal**: Sueldo promedio por tipo de personal.
+- **ContarEspeciesPorTipoEnArea**: Especies por tipo en un área.
+- **CalcularCostoOperativoPersonalParque**: Costo de personal de vigilancia y conservación.
+- **ObtenerNumeroInvestigadoresProyecto**: Número de investigadores en un proyecto.
+- **ContarVisitantesPorParque**: Visitantes por parque hasta una fecha.
+- **ObtenerAntiguedadParque**: Años desde la declaración del parque.
+- **CalcularDensidadEspeciesArea**: Densidad de individuos por área.
+- **ObtenerNumeroAreasParque**: Número de áreas en un parque.
+- **CalcularCostoPorInvestigador**: Costo por investigador en un proyecto.
+- **ContarVehiculosPorPersonal**: Vehículos asignados a un empleado.
+- **ObtenerDuracionProyecto**: Duración en meses de un proyecto.
+- **ContarEspeciesInvestigadasPorProyecto**: Especies estudiadas en un proyecto.
+- **ObtenerNumeroAlojamientosParque**: Número de alojamientos en un parque.
+- **CalcularPromedioIndividuosPorEspecie**: Promedio de individuos por especie.
+
+## Triggers (20)
+- **ActualizarInventarioTrasInsertarArea**: Reduce un 5% los individuos al insertar un área.
+- **ActualizarSuperficieParqueTrasInsertarArea**: Actualiza la superficie del parque tras insertar un área.
+- **ActualizarSuperficieParqueTrasActualizarArea**: Actualiza la superficie si cambia la extensión de un área.
+- **EliminarInventarioTrasEliminarArea**: Elimina inventarios al borrar un área.
+- **ActualizarInventarioTrasInsertarEspecie**: Ajusta inventarios al insertar una especie.
+- **EliminarVehiculosTrasEliminarPersonal**: Libera vehículos al eliminar personal.
+- **LimitarSueldoMaximoTrasInsertar**: Limita sueldos a 10M al insertar personal.
+- **ActualizarVehiculoTrasActualizarPersonal**: Reasigna vehículos si el sueldo baja de 2M.
+- **ActualizarEstadoProyectoTrasInsertar**: Marca proyectos como "Iniciado" al asignar investigadores.
+- **EliminarInvestigadoresTrasEliminarProyecto**: Borra asignaciones al eliminar un proyecto.
+- **LimitarPresupuestoTrasInsertarProyecto**: Limita presupuestos a 100M.
+- **ActualizarPresupuestoTrasEliminarInvestigador**: Reduce un 10% el presupuesto al eliminar un investigador.
+- **ActualizarCapacidadTrasInsertarVisitante**: Reduce la capacidad al registrar un visitante.
+- **RestaurarCapacidadTrasEliminarVisitante**: Restaura capacidad al eliminar un visitante.
+- **LimitarCapacidadAlojamientoTrasInsertar**: Limita la capacidad de alojamientos a 50.
+- **EliminarVisitantesTrasEliminarAlojamiento**: Elimina registros de visitantes al borrar un alojamiento.
+- **ActualizarFechaEntradaVisitante**: Ajusta fechas futuras a la actual.
+- **ActualizarNumeroIndividuosTrasEliminarEspecie**: Aumenta individuos tras eliminar una especie.
+- **BloquearEliminacionAreaConInventario**: Impide eliminar áreas con inventario activo.
+- **AjustarInventarioTrasActualizarEspecie**: Aumenta un 5% individuos si una especie pasa a "Vegetal".
+
+## Eventos (20)
+- **ActualizarInventarioEspeciesMensual**: Incrementa un 5% los vegetales mensualmente.
+- **ReducirInventarioAnimalesMensual**: Reduce un 2% los animales mensualmente.
+- **ActualizarSueldosPersonalAnual**: Incrementa sueldos un 3% anualmente.
+- **LimpiarRegistrosVisitantesAntiguos**: Borra registros de visitantes de más de un año.
+- **ActualizarEstadoProyectosDiario**: Marca proyectos finalizados diariamente.
+- **ActualizarCapacidadAlojamientosMensual**: Aumenta un 10% la capacidad de cabañas mensualmente.
+- **IncrementarPresupuestoProyectosAnual**: Incrementa un 5% el presupuesto de proyectos activos anualmente.
+- **LimpiarInventarioEspeciesNulasMensual**: Elimina inventarios con 0 individuos mensualmente.
+- **RotarPersonalVigilanciaSemestral**: Reasigna vehículos de vigilancia cada 6 meses.
+- **ActualizarExtensionAreasAnual**: Incrementa un 1% la extensión de áreas anualmente.
+- **ActualizarTelefonosPersonalAnual**: Actualiza teléfonos móviles anualmente.
+- **LimpiarProyectosFinalizadosAnual**: Borra proyectos finalizados de más de 2 años.
+- **SimularCrecimientoEspeciesRarasTrimestral**: Incrementa un 10% especies con menos de 10 individuos cada 3 meses.
+- **ActualizarEspeciesEnPeligroTrimestral**: Reduce un 5% especies con menos de 50 individuos cada 3 meses.
+- **ActualizarSueldoPorAntiguedadAnual**: Incrementa un 2% sueldos por antigüedad (>5 años).
+- **ActualizarPresupuestoProyectosCriticosTrimestral**: Aumenta un 10% presupuestos de proyectos con especies críticas.
+- **LimpiarPersonalRetiradoAnual**: Elimina personal con más de 30 años de servicio.
+- **ReasignarVehiculosInactivosSemestral**: Reasigna vehículos no asignados cada 6 meses.
+- **ReducirExtensionAreasPeligrosasAnual**: Reduce un 5% áreas con menos de 10 individuos.
+- **LimpiarAlojamientosInactivosAnual**: Borra alojamientos sin visitas en 3 años.
+
+
+# Roles de Usuario y Permisos
+
+## Administrador
+- **Permisos**: `ALL PRIVILEGES` en `parques.*`.  
+- **Ejemplo**:  
   ```sql
-  DELIMITER //
-  CREATE FUNCTION superficie_por_departamento(dep_id INT) RETURNS DECIMAL(15,2)
-  BEGIN
-      DECLARE total DECIMAL(15,2);
-      SELECT SUM(p.Superficie_Total) INTO total
-      FROM parque p
-      JOIN departamento_parque dp ON p.ID_Parque = dp.ID_Parque
-      WHERE dp.ID_Departamento = dep_id;
-      RETURN IFNULL(total, 0);
-  END //
-  DELIMITER ;
-  ```
-  - **Uso**: `SELECT superficie_por_departamento(1);` (Superficie total en Antioquia).
+  GRANT ALL PRIVILEGES ON parques.* TO 'admin'@'localhost';
 
-- Total: 20 en `dql_funciones.sql`.
 
-### **Triggers**
-- **Ejemplo**: `actualizar_inventario`
+## GestorParques
+- **Permisos**: `SELECT, INSERT, UPDATE` en `parque, area, departamento.`
+- **Ejemplo**:
   ```sql
-  DELIMITER //
-  CREATE TRIGGER actualizar_inventario AFTER INSERT ON inventario_especies
-  FOR EACH ROW
-  BEGIN
-      INSERT INTO log_cambios (Tabla, Accion, Fecha)
-      VALUES ('inventario_especies', 'INSERT', NOW());
-  END //
-  DELIMITER ;
-  ```
-  - **Uso**: Registra cambios en inventarios automáticamente.
+  GRANT SELECT, INSERT, UPDATE ON parques.parque TO 'gestor'@'localhost';
 
-- Total: 20 en `dql_triggers.sql`.
 
-### **Eventos**
-- **Ejemplo**: `reporte_semanal_visitantes`
+## Investigador
+- **Permisos**: `SELECT, INSERT, UPDATE en proyecto_investigacion, investigador_proyecto_especie, especies.`
+- **Ejemplo**:
   ```sql
-  DELIMITER //
-  CREATE EVENT reporte_semanal_visitantes
-  ON SCHEDULE EVERY 1 WEEK STARTS '2025-01-01 00:00:00'
-  DO
-  BEGIN
-      INSERT INTO reportes (Reporte, Fecha)
-      SELECT CONCAT('Visitantes: ', COUNT(*)), NOW()
-      FROM registro_visitantes
-      WHERE Fecha_Entrada >= DATE_SUB(NOW(), INTERVAL 7 DAY);
-  END //
-  DELIMITER ;
-  ```
-  - **Uso**: Genera reportes automáticos cada semana.
-
-- Total: 20 en `dql_eventos.sql`.
-
----
-
-## Roles de Usuario y Permisos
-
-Se definieron 5 roles con permisos específicos:
-
-1. **Administrador**:
-   - Permisos: Acceso total (SELECT, INSERT, UPDATE, DELETE, EXECUTE en todas las tablas y objetos).
-   - Creación:
-     ```sql
-     CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin123';
-     GRANT ALL PRIVILEGES ON parques.* TO 'admin'@'localhost';
-     ```
-
-2. **Gestor de Parques**:
-   - Permisos: Gestión de parques, áreas y especies (SELECT, INSERT, UPDATE en tablas relacionadas).
-   - Creación:
-     ```sql
-     CREATE USER 'gestor'@'localhost' IDENTIFIED BY 'gestor123';
-     GRANT SELECT, INSERT, UPDATE ON parques.parque TO 'gestor'@'localhost';
-     GRANT SELECT, INSERT, UPDATE ON parques.area TO 'gestor'@'localhost';
-     GRANT SELECT, INSERT, UPDATE ON parques.especies TO 'gestor'@'localhost';
-     ```
-
-3. **Investigador**:
-   - Permisos: Acceso a proyectos y especies (SELECT en `proyecto_investigacion`, `especies`, etc.).
-   - Creación:
-     ```sql
-     CREATE USER 'investigador'@'localhost' IDENTIFIED BY 'inv123';
-     GRANT SELECT ON parques.proyecto_investigacion TO 'investigador'@'localhost';
-     GRANT SELECT ON parques.especies TO 'investigador'@'localhost';
-     ```
-
-4. **Auditor**:
-   - Permisos: Acceso a reportes financieros (SELECT en `proyecto_investigacion`, `personal` para sueldos).
-   - Creación:
-     ```sql
-     CREATE USER 'auditor'@'localhost' IDENTIFIED BY 'audit123';
-     GRANT SELECT ON parques.proyecto_investigacion TO 'auditor'@'localhost';
-     GRANT SELECT ON parques.personal TO 'auditor'@'localhost';
-     ```
-
-5. **Encargado de Visitantes**:
-   - Permisos: Gestión de visitantes y alojamientos (SELECT, INSERT, UPDATE en `visitante`, `alojamiento`, `registro_visitantes`).
-   - Creación:
-     ```sql
-     CREATE USER 'encargado'@'localhost' IDENTIFIED BY 'visit123';
-     GRANT SELECT, INSERT, UPDATE ON parques.visitante TO 'encargado'@'localhost';
-     GRANT SELECT, INSERT, UPDATE ON parques.alojamiento TO 'encargado'@'localhost';
-     GRANT SELECT, INSERT, UPDATE ON parques.registro_visitantes TO 'encargado'@'localhost';
-     ```
-
-- **Nota**: Ejecuta `FLUSH PRIVILEGES;` después de crear los usuarios.
-
----
-
-## Contribucion individual
-
-- **[Brayan David Vera Mesa]**: Diseño de la base de datos, creación de tablas, inserción de datos, consultas SQL.
-
----
-
-## Licencia y Contacto
-
-- **Licencia**: Este proyecto es de uso académico y no tiene licencia comercial. Contacta al equipo para permisos adicionales.
-
----
+  GRANT SELECT, INSERT, UPDATE ON parques.proyecto_investigacion TO 'investigador'@'localhost';
 
 
-### **Instrucciones para Usar la Plantilla**
-1. Copia este contenido en un archivo llamado `README.md` en la raíz de tu repositorio.
-2. Personaliza las secciones con tu información:
-   - Reemplaza `<URL_del_repositorio_privado>` con la URL real.
-   - Actualiza los nombres de los integrantes en "Contribuciones".
-   - Añade tu correo en "Contacto".
-3. Asegúrate de que los archivos SQL (`ddl.sql`, `dml.sql`, etc.) estén en las carpetas correspondientes y mencionados en las instrucciones.
-4. Incluye el diagrama entidad-relación como `Diagrama.jpg` (puedes generarlo con MySQL Workbench o herramientas como Draw.io).
+## PersonalVigilancia
+- **Permisos**: `SELECT` en `vehiculo, personal; UPDATE` en `vehiculo.`
+- **Ejemplo**:
+  ```sql
+  GRANT SELECT ON parques.personal TO 'vigilante'@'localhost';
+
+
+
+## Recepcionista
+- **Permisos**: `SELECT, INSERT` en `visitante, registro_visitantes, alojamiento.`
+- **Ejemplo**:
+  ```sql
+  GRANT SELECT, INSERT ON parques.visitante TO 'recepcionista'@'localhost';
+
+
+## Creación de usuarios:
+```sql
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'password123';
+GRANT ALL PRIVILEGES ON parques.* TO 'admin'@'localhost';
+FLUSH PRIVILEGES;
+
+## Contribuciones
+[Brayan David Vera Mesa]
+
+
+
+
+
