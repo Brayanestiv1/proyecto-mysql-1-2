@@ -2,7 +2,7 @@
 
 ## Descripción del Proyecto
 
-El proyecto "Gestión de Parques Naturales" es un sistema de base de datos diseñado para administrar información sobre parques naturales, incluyendo áreas, especies, personal, proyectos de investigación, visitantes y alojamientos. Su propósito es facilitar el seguimiento de inventarios, la asignación de recursos, la gestión de personal y la ocupación de alojamientos, ofreciendo herramientas para análisis y automatización mediante 65 consultas, 20 eventos, 20 funciones, 20 procedimientos y 20 disparadores implementados.
+El proyecto "Gestión de Parques Naturales" es un sistema de base de datos diseñado para administrar información sobre parques naturales, incluyendo áreas, especies, personal, proyectos de investigación, visitantes y alojamientos. Su propósito es facilitar el seguimiento de inventarios, la asignación de recursos, la gestión de personal y la ocupación de alojamientos, ofreciendo herramientas para análisis y automatización mediante 100 consultas, 20 eventos, 20 funciones, 20 procedimientos y 20 disparadores implementados.
 
 ## Requisitos del Sistema
 
